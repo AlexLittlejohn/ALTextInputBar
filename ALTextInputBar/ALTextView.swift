@@ -23,13 +23,6 @@ public protocol ALTextViewDelegate: UITextViewDelegate {
 
 public class ALTextView: UITextView {
     
-    /// The delegate object will be notified if the content size will change and should update the size of the text view to match
-    public weak var textViewDelegate: ALTextViewDelegate? {
-        didSet {
-            delegate = textViewDelegate
-        }
-    }
-    
     override public var font: UIFont! {
         didSet {
             placeholderLabel.font = font
@@ -39,6 +32,13 @@ public class ALTextView: UITextView {
     override public var contentSize: CGSize {
         didSet {
             updateSize()
+        }
+    }
+    
+    /// The delegate object will be notified if the content size will change and should update the size of the text view to match
+    public weak var textViewDelegate: ALTextViewDelegate? {
+        didSet {
+            delegate = textViewDelegate
         }
     }
     
@@ -108,7 +108,7 @@ public class ALTextView: UITextView {
         }
     }
     
-    //MARK: Sizing and scrolling -
+    //MARK: - Sizing and scrolling -
     /**
     Notify the delegate of size changes if necessary
     */
@@ -138,7 +138,7 @@ public class ALTextView: UITextView {
         })
     }
     
-    //MARK: Placeholder Layout -
+    //MARK: - Placeholder Layout -
     
     /**
     Determines if the placeholder should be hidden dependant on whether it was set and if there is text in the text view
@@ -167,10 +167,12 @@ public class ALTextView: UITextView {
         return placeholderRect
     }
     
-    //MARK: Notifications -
+    //MARK: - Notifications -
     
     func textViewDidChange(notification: NSNotification) {
-        placeholderLabel.hidden = shouldHidePlaceholder()
-        layoutManager.invalidateLayoutForCharacterRange(NSMakeRange(0, text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)), actualCharacterRange: nil)
+        if notification.object == self {
+            placeholderLabel.hidden = shouldHidePlaceholder()
+            layoutManager.invalidateLayoutForCharacterRange(NSMakeRange(0, text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)), actualCharacterRange: nil)
+        }
     }
 }
