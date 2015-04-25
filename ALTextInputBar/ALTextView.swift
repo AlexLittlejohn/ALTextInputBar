@@ -170,9 +170,11 @@ public class ALTextView: UITextView {
     //MARK: - Notifications -
     
     func textViewDidChange(notification: NSNotification) {
-        if notification.object == self {
-            placeholderLabel.hidden = shouldHidePlaceholder()
-            layoutManager.invalidateLayoutForCharacterRange(NSMakeRange(0, text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)), actualCharacterRange: nil)
+        if let object = notification.object as? ALTextView {
+            if object == self {
+                placeholderLabel.hidden = shouldHidePlaceholder()
+                layoutManager.invalidateLayoutForCharacterRange(NSMakeRange(0, text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)), actualCharacterRange: nil)
+            }
         }
     }
 }
