@@ -1,5 +1,5 @@
 # ALTextInputBar
-An auto growing text input bar for messaging apps. Written in Swift
+An auto growing text input bar for messaging apps. Written in Swift.  
 ALTextInputBar is designed to solve a few issues that folks usually encounter when building messaging apps.
 
 ![With some text](https://cloud.githubusercontent.com/assets/932822/7333301/a510aa22-eb6a-11e4-988b-ac12e4e6c363.png)
@@ -11,7 +11,7 @@ ALTextInputBar is designed to solve a few issues that folks usually encounter wh
 - Automatic resizing based on content
 - Interactive dismiss gesture support
 
-### Quick start
+### Installation
 
 #### iOS 8
 ALTextInputBar is available on [CocoaPods](http://cocoapods.org).  Add the following to your Podfile:
