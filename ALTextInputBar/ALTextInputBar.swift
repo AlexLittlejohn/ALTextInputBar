@@ -29,6 +29,16 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     /// The horizontal spacing between subviews
     public var horizontalSpacing: CGFloat = 5
     
+    /// Set and retrieve the text view text
+    public var text: String! {
+        get {
+            return textView.text
+        }
+        set(newValue) {
+            textView.text = newValue
+        }
+    }
+    
     /** 
     This view will be displayed on the left of the text view.
     
