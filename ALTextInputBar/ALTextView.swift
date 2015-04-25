@@ -35,7 +35,8 @@ public class ALTextView: UITextView {
         }
     }
     
-    /// The delegate object will be notified if the content size will change and should update the size of the text view to match
+    /// The delegate object to be notified if the content size will change 
+    /// The delegate should update handle text view layout
     public weak var textViewDelegate: ALTextViewDelegate? {
         didSet {
             delegate = textViewDelegate
@@ -75,7 +76,7 @@ public class ALTextView: UITextView {
         return _placeholderLabel
         }()
     
-    /// The maximum number of lines before that will be shown. 0 = no limit
+    /// The maximum number of lines that will be shown before the text view will scroll. 0 = no limit
     public var maxNumberOfLines: CGFloat = 0
     
     private var numberOfLines: CGFloat {

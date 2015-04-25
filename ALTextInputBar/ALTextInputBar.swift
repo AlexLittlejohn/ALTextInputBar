@@ -81,7 +81,6 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     This view will be displayed on the left of the text view.
     
     If this view is nil nothing will be displayed, and the text view will fill the space
-    
     */
     public var leftView: UIView? {
         willSet(newValue) {
@@ -98,6 +97,12 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         }
     }
     
+    /**
+    This view will be displayed on the right of the text view.
+    
+    If this view is nil nothing will be displayed, and the text view will fill the space
+    If alwaysShowRightButton is false this view will animate in from the right when the text view has content
+    */
     public var rightView: UIView? {
         willSet(newValue) {
             if newValue == nil {
@@ -113,6 +118,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         }
     }
     
+    /// The text view instance
     public let textView: ALTextView = {
         
         let _textView = ALTextView()
