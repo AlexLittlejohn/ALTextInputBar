@@ -216,8 +216,6 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         }
         
         textView.frame = CGRectMake(textViewX, textViewY, textViewWidth, textViewHeight)
-     
-        println(frame)
     }
     
     public func updateViews(animated: Bool) {
