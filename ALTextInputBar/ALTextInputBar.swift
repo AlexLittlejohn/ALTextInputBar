@@ -11,8 +11,46 @@ import UIKit
 public typealias ALSubmitTextAction = (text: String) -> Void
 public typealias ALButtonAction = () -> Void
 
-func defaultNumberOfLines() -> CGFloat {
-    return 6
+private func defaultNumberOfLines() -> CGFloat {
+    if (UIDevice.isIPad()) {
+        return 8;
+    }
+    if (UIDevice.isIPhone4()) {
+        return 4;
+    }
+
+    return 6;
+}
+
+/// A private extension to help determine how many lines of text to display by default
+private extension UIDevice {
+    class func isIPad() -> Bool {
+        return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+    }
+    
+    class func isIPhone() -> Bool {
+        return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone
+    }
+    
+    class func isIPhone4() -> Bool {
+        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height < 568.0
+    }
+    
+    class func isIPhone5() -> Bool {
+        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height == 568.0
+    }
+    
+    class func isIPhone6() -> Bool {
+        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height == 667.0
+    }
+    
+    class func isIPhone6Plus() -> Bool {
+        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height == 736.0 || UIScreen.mainScreen().bounds.size.width == 736.0
+    }
+    
+    class func floatVersion() -> Float {
+        return (UIDevice.currentDevice().systemVersion as NSString).floatValue
+    }
 }
 
 public class ALTextInputBar: UIView, ALTextViewDelegate {
