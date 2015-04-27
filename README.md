@@ -28,23 +28,23 @@ Drag `ALTextInputBar.swift` and `ALTextView.swift` into your project
 
 This is the minimum configuration required to attach an input bar to the keyboard.
 ```swift
-    class ViewController: UIViewController {
+class ViewController: UIViewController {
 
-        let textInputBar = ALTextInputBar()
-        
-        // The magic sauce
-        // This is how we attach the input bar to the keyboard
-        override var inputAccessoryView: UIView? {
-            get {
-                return textInputBar
-            }
-        }
-        
-        // Another ingredient in the magic sauce
-        override func canBecomeFirstResponder() -> Bool {
-            return true
+    let textInputBar = ALTextInputBar()
+    
+    // The magic sauce
+    // This is how we attach the input bar to the keyboard
+    override var inputAccessoryView: UIView? {
+        get {
+            return textInputBar
         }
     }
+    
+    // Another ingredient in the magic sauce
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+}
 ```
 #### ALTextInputBar Configuration
 
