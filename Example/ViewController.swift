@@ -32,6 +32,8 @@ class ViewController: UIViewController {
         
         configureScrollView()
         configureInputBar()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardFrameChanged:", name: InputAccessoryViewKeyboardFrameDidChangeNotification, object: nil)
     }
 
     override func viewWillLayoutSubviews() {
@@ -64,5 +66,15 @@ class ViewController: UIViewController {
         textInputBar.backgroundColor = UIColor.whiteColor()
     }
 
+    func keyboardFrameChanged(notification: NSNotification) {
+        let userInfo = notification.userInfo
+        let key = UIKeyboardFrameEndUserInfoKey
+        if let info = userInfo {
+            let frameValue = info[key] as! NSValue
+            let _frame = frameValue.CGRectValue()
+//            println("frame: \(_frame)")
+        }
+    }
+    
 }
 

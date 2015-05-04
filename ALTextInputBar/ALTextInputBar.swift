@@ -297,7 +297,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     private func keyboardDidChangeFrame(frame: CGRect) {
         let userInfo = [UIKeyboardFrameEndUserInfoKey: NSValue(CGRect:frame)]
-        NSNotificationCenter.defaultCenter().postNotificationName(InputAccessoryViewKeyboardFrameDidChangeNotification, object: userInfo)
+        NSNotificationCenter.defaultCenter().postNotificationName(InputAccessoryViewKeyboardFrameDidChangeNotification, object: nil, userInfo: userInfo)
     }
     
     deinit {
