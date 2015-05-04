@@ -11,6 +11,8 @@ import UIKit
 public typealias ALSubmitTextAction = (text: String) -> Void
 public typealias ALButtonAction = () -> Void
 
+public let InputAccessoryViewKeyboardFrameDidChangeNotification = "InputAccessoryViewKeyboardFrameDidChangeNotification"
+
 private func defaultNumberOfLines() -> CGFloat {
     if (UIDevice.isIPad()) {
         return 8;
@@ -34,6 +36,10 @@ private extension UIDevice {
     
     class func isIPhone4() -> Bool {
         return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height < 568.0
+    }
+    
+    class func floatVersion() -> Float {
+        return (UIDevice.currentDevice().systemVersion as NSString).floatValue
     }
 }
 
@@ -128,6 +134,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     private var showRightButton = false
     private var showLeftButton = false
+    
+    private weak var observedView: UIView?
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -246,5 +254,53 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             showRightButton = shouldShowButton
             updateViews(true)
         }
+    }
+    
+    // MARK: - Keyboard Observing -
+    
+    public override func willMoveToSuperview(newSuperview: UIView?) {
+        removeKeyboardObserver()
+        if let _newSuperview = newSuperview {
+            addKeyboardObserver(_newSuperview)
+        }
+        
+        super.willMoveToSuperview(newSuperview)
+    }
+    
+    public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        if object as? NSObject == superview && keyPath == keyboardHandlingKeyPath() {
+            keyboardDidChangeFrame(superview!.frame)
+        } else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
+    }
+    
+    private func keyboardHandlingKeyPath() -> String {
+        if UIDevice.floatVersion() >= 8.0 {
+            return "center"
+        } else {
+            return "frame"
+        }
+    }
+    
+    private func addKeyboardObserver(newSuperview: UIView) {
+        observedView = newSuperview
+        newSuperview.addObserver(self, forKeyPath: keyboardHandlingKeyPath(), options: NSKeyValueObservingOptions.New, context: nil)
+    }
+    
+    private func removeKeyboardObserver() {
+        if observedView != nil {
+            observedView!.removeObserver(self, forKeyPath: keyboardHandlingKeyPath())
+            observedView = nil
+        }
+    }
+    
+    private func keyboardDidChangeFrame(frame: CGRect) {
+        let userInfo = [UIKeyboardFrameEndUserInfoKey: NSValue(CGRect:frame)]
+        NSNotificationCenter.defaultCenter().postNotificationName(InputAccessoryViewKeyboardFrameDidChangeNotification, object: userInfo)
+    }
+    
+    deinit {
+        removeKeyboardObserver()
     }
 }
