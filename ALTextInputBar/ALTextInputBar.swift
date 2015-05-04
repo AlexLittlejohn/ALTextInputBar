@@ -35,22 +35,6 @@ private extension UIDevice {
     class func isIPhone4() -> Bool {
         return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height < 568.0
     }
-    
-    class func isIPhone5() -> Bool {
-        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height == 568.0
-    }
-    
-    class func isIPhone6() -> Bool {
-        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height == 667.0
-    }
-    
-    class func isIPhone6Plus() -> Bool {
-        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height == 736.0 || UIScreen.mainScreen().bounds.size.width == 736.0
-    }
-    
-    class func floatVersion() -> Float {
-        return (UIDevice.currentDevice().systemVersion as NSString).floatValue
-    }
 }
 
 public class ALTextInputBar: UIView, ALTextViewDelegate {
