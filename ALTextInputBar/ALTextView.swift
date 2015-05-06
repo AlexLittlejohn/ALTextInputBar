@@ -18,7 +18,7 @@ public protocol ALTextViewDelegate: UITextViewDelegate {
     :param: textView The text view that triggered the size change
     :param: newHeight The ideal height for the new text view
     */
-    func textViewHeightChanged(textView: UITextView, newHeight: CGFloat)
+    func textViewHeightChanged(textView: ALTextView, newHeight: CGFloat)
 }
 
 public class ALTextView: UITextView {
@@ -79,9 +79,14 @@ public class ALTextView: UITextView {
     /// The maximum number of lines that will be shown before the text view will scroll. 0 = no limit
     public var maxNumberOfLines: CGFloat = 0
     
-    private var numberOfLines: CGFloat {
+    public var expectedHeight: CGFloat {
         get {
-            return fabs(contentSize.height/font.lineHeight)
+            return roundHeight()
+        }
+    }
+    public var minimumHeight: CGFloat {
+        get {
+            return ceil(font.lineHeight) + textContainerInset.top + textContainerInset.bottom
         }
     }
     
@@ -114,19 +119,37 @@ public class ALTextView: UITextView {
     Notify the delegate of size changes if necessary
     */
     private func updateSize() {
+        
         var maxHeight = CGFloat.max
         
         if maxNumberOfLines > 0 {
-            maxHeight = font.lineHeight * maxNumberOfLines
+            maxHeight = ceil(font.lineHeight) * maxNumberOfLines + textContainerInset.top + textContainerInset.bottom
         }
         
-        let newHeight = contentSize.height > maxHeight ? maxHeight : contentSize.height
+        var roundedHeight = roundHeight()
+        var newHeight = roundedHeight > maxHeight ? maxHeight : roundedHeight
         
-        if textViewDelegate != nil && newHeight != frame.size.height {
+        if textViewDelegate != nil {
             textViewDelegate?.textViewHeightChanged(self, newHeight:newHeight)
         }
         
         ensureCaretDisplaysCorrectly()
+    }
+    
+    /**
+    Calculates the correct height for the text currently in the textview as we cannot rely on contentsize to do the right thing
+    */
+    private func roundHeight() -> CGFloat {
+        var newHeight: CGFloat = 0
+        
+        if let font = font {
+            let attributes = [NSFontAttributeName: font]
+            let boundingSize = CGSizeMake(frame.size.width, CGFloat.max)
+            let size = (text as NSString).boundingRectWithSize(boundingSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attributes, context: nil)
+            newHeight = ceil(size.height)
+        }
+        
+        return newHeight + textContainerInset.top + textContainerInset.bottom
     }
     
     /**

@@ -165,6 +165,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         super.layoutSubviews()
         
         let size = frame.size
+        let height = floor(size.height)
         
         var leftViewSize = CGSizeZero
         var rightViewSize = CGSizeZero
@@ -174,7 +175,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             
             let leftViewX: CGFloat = horizontalPadding
             let leftViewVerticalPadding = (defaultHeight - leftViewSize.height) / 2
-            let leftViewY: CGFloat = size.height - (leftViewSize.height + leftViewVerticalPadding)
+            let leftViewY: CGFloat = height - (leftViewSize.height + leftViewVerticalPadding)
             view.frame = CGRectMake(leftViewX, leftViewY, leftViewSize.width, leftViewSize.height)
         }
 
@@ -183,7 +184,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             
             let rightViewVerticalPadding = (defaultHeight - rightViewSize.height) / 2
             var rightViewX = size.width
-            let rightViewY = size.height - (rightViewSize.height + rightViewVerticalPadding)
+            let rightViewY = height - (rightViewSize.height + rightViewVerticalPadding)
             
             if showRightButton || alwaysShowRightButton {
                 rightViewX -= (rightViewSize.width + horizontalPadding)
@@ -192,10 +193,10 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             view.frame = CGRectMake(rightViewX, rightViewY, rightViewSize.width, rightViewSize.height)
         }
         
-        let textViewPadding = fabs(defaultHeight - (textView.font.lineHeight + textView.textContainerInset.top + textView.textContainerInset.bottom)) / 2
+        let textViewPadding = (defaultHeight - textView.minimumHeight) / 2
         var textViewX = horizontalPadding
         let textViewY = textViewPadding
-        let textViewHeight = size.height - (textViewPadding * 2)
+        let textViewHeight = textView.expectedHeight
         var textViewWidth = size.width - (horizontalPadding + horizontalPadding)
         
         if leftViewSize.width > 0 {
@@ -228,26 +229,27 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     // MARK: - ALTextViewDelegate -
     
-    public final func textViewHeightChanged(textView: UITextView, newHeight: CGFloat) {
-        let height = (defaultHeight - (textView.font.lineHeight + textView.textContainerInset.top + textView.textContainerInset.bottom)) + newHeight
+    public final func textViewHeightChanged(textView: ALTextView, newHeight: CGFloat) {
         
-        frame.size.height = height
+        let padding = defaultHeight - textView.minimumHeight
+        let height = padding + newHeight
         
-        setNeedsLayout()
-        layoutIfNeeded()
+        if UIDevice.floatVersion() < 8.0 {
+            frame.size.height = height
+            
+            setNeedsLayout()
+            layoutIfNeeded()
+        }
         
         for c in constraints() {
             var constraint = c as! NSLayoutConstraint
-            if constraint.firstAttribute == NSLayoutAttribute.Height {
+            if constraint.firstAttribute == NSLayoutAttribute.Height && constraint.firstItem as! NSObject == self {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
             }
         }
     }
     
     public final func textViewDidChange(textView: UITextView) {
-        setNeedsLayout()
-        layoutIfNeeded()
-        
         var shouldShowButton = textView.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
@@ -259,6 +261,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     // MARK: - Keyboard Observing -
     
     public override func willMoveToSuperview(newSuperview: UIView?) {
+        
         removeKeyboardObserver()
         if let _newSuperview = newSuperview {
             addKeyboardObserver(_newSuperview)

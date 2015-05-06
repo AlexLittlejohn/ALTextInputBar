@@ -34,6 +34,8 @@ class ViewController: UIViewController {
         configureInputBar()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardFrameChanged:", name: InputAccessoryViewKeyboardFrameDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
 
     override func viewWillLayoutSubviews() {
@@ -67,13 +69,21 @@ class ViewController: UIViewController {
     }
 
     func keyboardFrameChanged(notification: NSNotification) {
+        println("keyboardFrameChanged")
         let userInfo = notification.userInfo
         let key = UIKeyboardFrameEndUserInfoKey
         if let info = userInfo {
             let frameValue = info[key] as! NSValue
             let _frame = frameValue.CGRectValue()
-//            println("frame: \(_frame)")
         }
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        println("keyboardWillShow")
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        println("keyboardWillHide")
     }
     
 }
