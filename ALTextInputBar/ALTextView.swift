@@ -78,12 +78,7 @@ public class ALTextView: UITextView {
     
     /// The maximum number of lines that will be shown before the text view will scroll. 0 = no limit
     public var maxNumberOfLines: CGFloat = 0
-    
-    public var expectedHeight: CGFloat {
-        get {
-            return roundHeight()
-        }
-    }
+    public var expectedHeight: CGFloat = 0
     public var minimumHeight: CGFloat {
         get {
             return ceil(font.lineHeight) + textContainerInset.top + textContainerInset.bottom
@@ -123,14 +118,14 @@ public class ALTextView: UITextView {
         var maxHeight = CGFloat.max
         
         if maxNumberOfLines > 0 {
-            maxHeight = ceil(font.lineHeight) * maxNumberOfLines + textContainerInset.top + textContainerInset.bottom
+            maxHeight = (ceil(font.lineHeight) * maxNumberOfLines) + textContainerInset.top + textContainerInset.bottom
         }
-        
+
         var roundedHeight = roundHeight()
-        var newHeight = roundedHeight > maxHeight ? maxHeight : roundedHeight
+        expectedHeight = roundedHeight >= maxHeight ? maxHeight : roundedHeight
         
         if textViewDelegate != nil {
-            textViewDelegate?.textViewHeightChanged(self, newHeight:newHeight)
+            textViewDelegate?.textViewHeightChanged(self, newHeight:expectedHeight)
         }
         
         ensureCaretDisplaysCorrectly()
