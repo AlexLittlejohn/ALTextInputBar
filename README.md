@@ -11,7 +11,9 @@ ALTextInputBar is designed to solve a few issues that folks usually encounter wh
 - Automatic resizing based on content
 - Interactive dismiss gesture support
 
-### Installation
+### Installation & Requirements
+
+This project requires Xcode 6.3 to run and compiles with swift 1.2
 
 #### iOS 8
 ALTextInputBar is available on [CocoaPods](http://cocoapods.org).  Add the following to your Podfile:
