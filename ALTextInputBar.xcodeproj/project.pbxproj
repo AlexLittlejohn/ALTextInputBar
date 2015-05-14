@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		FA41B0B21AEBC57D00593A04 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA41B0B01AEBC57D00593A04 /* Images.xcassets */; };
 		FA41B0B31AEBC57D00593A04 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA41B0B11AEBC57D00593A04 /* Info.plist */; };
+		FA4AE6741B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6731B0494200086AEBF /* ALTextInputBarDelegate.swift */; };
+		FA4AE6751B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6731B0494200086AEBF /* ALTextInputBarDelegate.swift */; };
+		FA4AE6771B0494AE0086AEBF /* ALKeyboardObservingInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6761B0494AE0086AEBF /* ALKeyboardObservingInputBar.swift */; };
+		FA4AE6781B0494AE0086AEBF /* ALKeyboardObservingInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6761B0494AE0086AEBF /* ALKeyboardObservingInputBar.swift */; };
+		FA4AE67A1B0495F60086AEBF /* ALTextInputUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6791B0495F60086AEBF /* ALTextInputUtilities.swift */; };
+		FA4AE67B1B0495F60086AEBF /* ALTextInputUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6791B0495F60086AEBF /* ALTextInputUtilities.swift */; };
 		FA61C9471AEAEC5F00920E37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA61C9461AEAEC5F00920E37 /* AppDelegate.swift */; };
 		FA61C9491AEAEC5F00920E37 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA61C9481AEAEC5F00920E37 /* ViewController.swift */; };
 		FA61C95D1AEAEC5F00920E37 /* ALTextInputBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA61C95C1AEAEC5F00920E37 /* ALTextInputBarTests.swift */; };
@@ -29,6 +35,9 @@
 /* Begin PBXFileReference section */
 		FA41B0B01AEBC57D00593A04 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FA41B0B11AEBC57D00593A04 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA4AE6731B0494200086AEBF /* ALTextInputBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALTextInputBarDelegate.swift; sourceTree = "<group>"; };
+		FA4AE6761B0494AE0086AEBF /* ALKeyboardObservingInputBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALKeyboardObservingInputBar.swift; sourceTree = "<group>"; };
+		FA4AE6791B0495F60086AEBF /* ALTextInputUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALTextInputUtilities.swift; sourceTree = "<group>"; };
 		FA61C9411AEAEC5F00920E37 /* ALTextInputBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ALTextInputBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA61C9461AEAEC5F00920E37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA61C9481AEAEC5F00920E37 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +90,9 @@
 			children = (
 				FA61C9671AEAEEC800920E37 /* ALTextView.swift */,
 				FA61C9691AEAF01D00920E37 /* ALTextInputBar.swift */,
+				FA4AE6731B0494200086AEBF /* ALTextInputBarDelegate.swift */,
+				FA4AE6761B0494AE0086AEBF /* ALKeyboardObservingInputBar.swift */,
+				FA4AE6791B0495F60086AEBF /* ALTextInputUtilities.swift */,
 			);
 			path = ALTextInputBar;
 			sourceTree = "<group>";
@@ -221,9 +233,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA61C9491AEAEC5F00920E37 /* ViewController.swift in Sources */,
+				FA4AE6741B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */,
+				FA4AE6771B0494AE0086AEBF /* ALKeyboardObservingInputBar.swift in Sources */,
 				FA61C9681AEAEEC800920E37 /* ALTextView.swift in Sources */,
 				FA61C96A1AEAF01D00920E37 /* ALTextInputBar.swift in Sources */,
 				FA61C9471AEAEC5F00920E37 /* AppDelegate.swift in Sources */,
+				FA4AE67A1B0495F60086AEBF /* ALTextInputUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +247,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA61C95D1AEAEC5F00920E37 /* ALTextInputBarTests.swift in Sources */,
+				FA4AE6751B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */,
+				FA4AE6781B0494AE0086AEBF /* ALKeyboardObservingInputBar.swift in Sources */,
+				FA4AE67B1B0495F60086AEBF /* ALTextInputUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

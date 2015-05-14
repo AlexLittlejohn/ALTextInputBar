@@ -8,42 +8,9 @@
 
 import UIKit
 
-public typealias ALSubmitTextAction = (text: String) -> Void
-public typealias ALButtonAction = () -> Void
-
-public let InputAccessoryViewKeyboardFrameDidChangeNotification = "InputAccessoryViewKeyboardFrameDidChangeNotification"
-
-private func defaultNumberOfLines() -> CGFloat {
-    if (UIDevice.isIPad()) {
-        return 8;
-    }
-    if (UIDevice.isIPhone4()) {
-        return 4;
-    }
-
-    return 6;
-}
-
-/// A private extension to help determine how many lines of text to display by default
-private extension UIDevice {
-    class func isIPad() -> Bool {
-        return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
-    }
+public class ALTextInputBar: ALKeyboardObservingInputBar, ALTextViewDelegate {
     
-    class func isIPhone() -> Bool {
-        return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone
-    }
-    
-    class func isIPhone4() -> Bool {
-        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height < 568.0
-    }
-    
-    class func floatVersion() -> Float {
-        return (UIDevice.currentDevice().systemVersion as NSString).floatValue
-    }
-}
-
-public class ALTextInputBar: UIView, ALTextViewDelegate {
+    public weak var delegate: ALTextInputBarDelegate?
     
     /// Used for the intrinsic content size for autolayout
     public var defaultHeight: CGFloat = 44
@@ -57,7 +24,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     /// The horizontal spacing between subviews
     public var horizontalSpacing: CGFloat = 5
     
-    /// Set and retrieve the text view text
+    /// Convenience set and retrieve the text view text
     public var text: String! {
         get {
             return textView.text
@@ -134,9 +101,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     private var showRightButton = false
     private var showLeftButton = false
-    
-    private weak var observedView: UIView?
-    
+        
     override public init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -256,54 +221,53 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             showRightButton = shouldShowButton
             updateViews(true)
         }
-    }
-    
-    // MARK: - Keyboard Observing -
-    
-    public override func willMoveToSuperview(newSuperview: UIView?) {
         
-        removeKeyboardObserver()
-        if let _newSuperview = newSuperview {
-            addKeyboardObserver(_newSuperview)
-        }
-        
-        super.willMoveToSuperview(newSuperview)
-    }
-    
-    public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-        if object as? NSObject == superview && keyPath == keyboardHandlingKeyPath() {
-            keyboardDidChangeFrame(superview!.frame)
-        } else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        if let d = delegate, m = d.textViewDidChange {
+            m(self.textView)
         }
     }
     
-    private func keyboardHandlingKeyPath() -> String {
-        if UIDevice.floatVersion() >= 8.0 {
-            return "center"
-        } else {
-            return "frame"
+    public func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        var beginEditing: Bool = true
+        if let d = delegate, m = d.textViewShouldEndEditing {
+            beginEditing = m(self.textView)
+        }
+        return beginEditing
+    }
+    
+    public func textViewShouldEndEditing(textView: UITextView) -> Bool {
+        var endEditing = true
+        if let d = delegate, m = d.textViewShouldEndEditing {
+            endEditing = m(self.textView)
+        }
+        return endEditing
+    }
+    
+    public func textViewDidBeginEditing(textView: UITextView) {
+        if let d = delegate, m = d.textViewDidBeginEditing {
+            m(self.textView)
         }
     }
     
-    private func addKeyboardObserver(newSuperview: UIView) {
-        observedView = newSuperview
-        newSuperview.addObserver(self, forKeyPath: keyboardHandlingKeyPath(), options: NSKeyValueObservingOptions.New, context: nil)
-    }
-    
-    private func removeKeyboardObserver() {
-        if observedView != nil {
-            observedView!.removeObserver(self, forKeyPath: keyboardHandlingKeyPath())
-            observedView = nil
+    public func textViewDidEndEditing(textView: UITextView) {
+        if let d = delegate, m = d.textViewDidEndEditing {
+            m(self.textView)
         }
     }
     
-    private func keyboardDidChangeFrame(frame: CGRect) {
-        let userInfo = [UIKeyboardFrameEndUserInfoKey: NSValue(CGRect:frame)]
-        NSNotificationCenter.defaultCenter().postNotificationName(InputAccessoryViewKeyboardFrameDidChangeNotification, object: nil, userInfo: userInfo)
+    public func textViewDidChangeSelection(textView: UITextView) {
+        if let d = delegate, m = d.textViewDidChangeSelection {
+            m(self.textView)
+        }
     }
     
-    deinit {
-        removeKeyboardObserver()
+    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        var shouldChange = true
+        if text == "\n" {
+            if let d = delegate, m = d.textViewShouldReturn {
+                shouldChange = m(self.textView)
+            }
+        }
+        return shouldChange
     }
 }
