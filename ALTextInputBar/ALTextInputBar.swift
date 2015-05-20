@@ -31,6 +31,7 @@ public class ALTextInputBar: ALKeyboardObservingInputBar, ALTextViewDelegate {
         }
         set(newValue) {
             textView.text = newValue
+            textView.delegate?.textViewDidChange?(textView)
         }
     }
     
