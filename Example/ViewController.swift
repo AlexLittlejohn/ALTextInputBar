@@ -70,11 +70,10 @@ class ViewController: UIViewController {
 
     func keyboardFrameChanged(notification: NSNotification) {
         println("keyboardFrameChanged")
-        let userInfo = notification.userInfo
-        let key = UIKeyboardFrameEndUserInfoKey
-        if let info = userInfo {
-            let frameValue = info[key] as! NSValue
-            let _frame = frameValue.CGRectValue()
+        if let userInfo = notification.userInfo {
+            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            
+            
         }
     }
     
