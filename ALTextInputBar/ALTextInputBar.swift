@@ -213,6 +213,10 @@ public class ALTextInputBar: ALKeyboardObservingInputBar, ALTextViewDelegate {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
             }
         }
+        
+        if let d = delegate, m = d.inputBarDidChangeHeight {
+            m(height)
+        }
     }
     
     public final func textViewDidChange(textView: UITextView) {
