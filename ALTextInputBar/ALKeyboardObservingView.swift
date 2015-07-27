@@ -1,5 +1,5 @@
 //
-//  ALKeyboardObservingInputBar.swift
+//  ALKeyboardObservingView.swift
 //  ALTextInputBar
 //
 //  Created by Alex Littlejohn on 2015/05/14.
@@ -8,12 +8,16 @@
 
 import UIKit
 
-public let InputAccessoryViewKeyboardFrameDidChangeNotification = "InputAccessoryViewKeyboardFrameDidChangeNotification"
+public let ALKeyboardFrameDidChangeNotification = "ALKeyboardFrameDidChangeNotification"
 
-public class ALKeyboardObservingInputBar: UIView {
+public class ALKeyboardObservingView: UIView {
+
     private weak var observedView: UIView?
-
-    // MARK: - Keyboard Observing -
+    private var defaultHeight: CGFloat = 44
+    
+    override public func intrinsicContentSize() -> CGSize {
+        return CGSizeMake(UIViewNoIntrinsicMetric, defaultHeight)
+    }
     
     public override func willMoveToSuperview(newSuperview: UIView?) {
         
@@ -30,6 +34,22 @@ public class ALKeyboardObservingInputBar: UIView {
             keyboardDidChangeFrame(superview!.frame)
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
+    }
+    
+    public func updateHeight(height: CGFloat) {
+        if UIDevice.floatVersion() < 8.0 {
+            frame.size.height = height
+            
+            setNeedsLayout()
+            layoutIfNeeded()
+        }
+        
+        for c in constraints() {
+            var constraint = c as! NSLayoutConstraint
+            if constraint.firstAttribute == NSLayoutAttribute.Height && constraint.firstItem as! NSObject == self {
+                constraint.constant = height < defaultHeight ? defaultHeight : height
+            }
         }
     }
     
@@ -55,7 +75,7 @@ public class ALKeyboardObservingInputBar: UIView {
     
     private func keyboardDidChangeFrame(frame: CGRect) {
         let userInfo = [UIKeyboardFrameEndUserInfoKey: NSValue(CGRect:frame)]
-        NSNotificationCenter.defaultCenter().postNotificationName(InputAccessoryViewKeyboardFrameDidChangeNotification, object: nil, userInfo: userInfo)
+        NSNotificationCenter.defaultCenter().postNotificationName(ALKeyboardFrameDidChangeNotification, object: nil, userInfo: userInfo)
     }
     
     deinit {
