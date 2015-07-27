@@ -11,18 +11,18 @@ import UIKit
 class ViewController: UIViewController {
 
     let textInputBar = ALTextInputBar()
+    let keyboardObserver = ALKeyboardObservingView()
     
     let scrollView = UIScrollView()
     
-    // The magic sauce
-    // This is how we attach the input bar to the keyboard
+    // This is how we observe the keyboard position
     override var inputAccessoryView: UIView? {
         get {
-            return textInputBar
+            return keyboardObserver
         }
     }
     
-    // Another ingredient in the magic sauce
+    // This is also required
     override func canBecomeFirstResponder() -> Bool {
         return true
     }
@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         configureScrollView()
         configureInputBar()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardFrameChanged:", name: InputAccessoryViewKeyboardFrameDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardFrameChanged:", name: ALKeyboardFrameDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
@@ -41,6 +41,7 @@ class ViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         scrollView.frame = view.bounds
+        textInputBar.frame.size.width = view.bounds.size.width
     }
 
     func configureScrollView() {
@@ -62,27 +63,36 @@ class ViewController: UIViewController {
         leftButton.setImage(UIImage(named: "leftIcon"), forState: UIControlState.Normal)
         rightButton.setImage(UIImage(named: "rightIcon"), forState: UIControlState.Normal)
         
+        keyboardObserver.userInteractionEnabled = false
+        
         textInputBar.leftView = leftButton
         textInputBar.rightView = rightButton
-        
+        textInputBar.frame = CGRectMake(0, view.frame.size.height - textInputBar.defaultHeight, view.frame.size.width, textInputBar.defaultHeight)
         textInputBar.backgroundColor = UIColor.whiteColor()
+        textInputBar.keyboardObserver = keyboardObserver
+        
+        view.addSubview(textInputBar)
     }
 
     func keyboardFrameChanged(notification: NSNotification) {
-        println("keyboardFrameChanged")
         if let userInfo = notification.userInfo {
             let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            
-            
+            textInputBar.frame.origin.y = frame.origin.y
         }
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        println("keyboardWillShow")
+        if let userInfo = notification.userInfo {
+            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            textInputBar.frame.origin.y = frame.origin.y
+        }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        println("keyboardWillHide")
+        if let userInfo = notification.userInfo {
+            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            textInputBar.frame.origin.y = frame.origin.y
+        }
     }
     
 }

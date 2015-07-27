@@ -8,9 +8,11 @@
 
 import UIKit
 
-public class ALTextInputBar: ALKeyboardObservingInputBar, ALTextViewDelegate {
+public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     public weak var delegate: ALTextInputBarDelegate?
+    public weak var keyboardObserver: ALKeyboardObservingView?
+    
     
     /// Used for the intrinsic content size for autolayout
     public var defaultHeight: CGFloat = 44
@@ -200,18 +202,21 @@ public class ALTextInputBar: ALKeyboardObservingInputBar, ALTextViewDelegate {
         let padding = defaultHeight - textView.minimumHeight
         let height = padding + newHeight
         
-        if UIDevice.floatVersion() < 8.0 {
-            frame.size.height = height
-            
-            setNeedsLayout()
-            layoutIfNeeded()
-        }
-        
         for c in constraints() {
             var constraint = c as! NSLayoutConstraint
             if constraint.firstAttribute == NSLayoutAttribute.Height && constraint.firstItem as! NSObject == self {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
             }
+        }
+
+        frame.size.height = height
+        
+        if let ko = keyboardObserver {
+            ko.updateHeight(height)
+        }
+        
+        if let d = delegate, m = d.inputBarDidChangeHeight {
+            m(height)
         }
     }
     
