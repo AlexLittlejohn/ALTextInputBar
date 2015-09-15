@@ -29,7 +29,7 @@ public class ALKeyboardObservingView: UIView {
         super.willMoveToSuperview(newSuperview)
     }
     
-    public override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if object as? NSObject == superview && keyPath == keyboardHandlingKeyPath() {
             keyboardDidChangeFrame(superview!.frame)
         } else {
@@ -45,8 +45,7 @@ public class ALKeyboardObservingView: UIView {
             layoutIfNeeded()
         }
         
-        for c in constraints() {
-            var constraint = c as! NSLayoutConstraint
+        for constraint in constraints {
             if constraint.firstAttribute == NSLayoutAttribute.Height && constraint.firstItem as! NSObject == self {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
             }
