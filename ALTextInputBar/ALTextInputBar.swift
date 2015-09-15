@@ -110,7 +110,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         commonInit()
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -202,8 +202,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         let padding = defaultHeight - textView.minimumHeight
         let height = padding + newHeight
         
-        for c in constraints() {
-            var constraint = c as! NSLayoutConstraint
+        for constraint in constraints {
             if constraint.firstAttribute == NSLayoutAttribute.Height && constraint.firstItem as! NSObject == self {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
             }
@@ -221,7 +220,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     }
     
     public final func textViewDidChange(textView: UITextView) {
-        var shouldShowButton = textView.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
+        let shouldShowButton = textView.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
             showRightButton = shouldShowButton

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FA41B0B21AEBC57D00593A04 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA41B0B01AEBC57D00593A04 /* Images.xcassets */; };
-		FA41B0B31AEBC57D00593A04 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA41B0B11AEBC57D00593A04 /* Info.plist */; };
 		FA4AE6741B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6731B0494200086AEBF /* ALTextInputBarDelegate.swift */; };
 		FA4AE6751B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6731B0494200086AEBF /* ALTextInputBarDelegate.swift */; };
 		FA4AE6771B0494AE0086AEBF /* ALKeyboardObservingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6761B0494AE0086AEBF /* ALKeyboardObservingView.swift */; };
@@ -177,7 +176,9 @@
 		FA61C9391AEAEC5F00920E37 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = zero;
 				TargetAttributes = {
 					FA61C9401AEAEC5F00920E37 = {
@@ -214,7 +215,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA41B0B21AEBC57D00593A04 /* Images.xcassets in Resources */,
-				FA41B0B31AEBC57D00593A04 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +285,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -355,6 +356,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zero.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -368,6 +370,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zero.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -387,6 +390,7 @@
 				);
 				INFOPLIST_FILE = "ALTextInputBarTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zero.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ALTextInputBar.app/ALTextInputBar";
 			};
@@ -402,6 +406,7 @@
 				);
 				INFOPLIST_FILE = "ALTextInputBarTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zero.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ALTextInputBar.app/ALTextInputBar";
 			};

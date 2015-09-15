@@ -15,15 +15,15 @@ public protocol ALTextViewDelegate: UITextViewDelegate {
     
     The receiver is responsible for layout
     
-    :param: textView The text view that triggered the size change
-    :param: newHeight The ideal height for the new text view
+    - parameter textView: The text view that triggered the size change
+    - parameter newHeight: The ideal height for the new text view
     */
     func textViewHeightChanged(textView: ALTextView, newHeight: CGFloat)
 }
 
 public class ALTextView: UITextView {
     
-    override public var font: UIFont! {
+    override public var font: UIFont? {
         didSet {
             placeholderLabel.font = font
         }
@@ -81,7 +81,7 @@ public class ALTextView: UITextView {
     public var expectedHeight: CGFloat = 0
     public var minimumHeight: CGFloat {
         get {
-            return ceil(font.lineHeight) + textContainerInset.top + textContainerInset.bottom
+            return ceil(font!.lineHeight) + textContainerInset.top + textContainerInset.bottom
         }
     }
     
@@ -90,7 +90,7 @@ public class ALTextView: UITextView {
         commonInit()
     }
     
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
     }
@@ -118,10 +118,10 @@ public class ALTextView: UITextView {
         var maxHeight = CGFloat.max
         
         if maxNumberOfLines > 0 {
-            maxHeight = (ceil(font.lineHeight) * maxNumberOfLines) + textContainerInset.top + textContainerInset.bottom
+            maxHeight = (ceil(font!.lineHeight) * maxNumberOfLines) + textContainerInset.top + textContainerInset.bottom
         }
 
-        var roundedHeight = roundHeight()
+        let roundedHeight = roundHeight()
         expectedHeight = roundedHeight >= maxHeight ? maxHeight : roundedHeight
         
         if textViewDelegate != nil {
@@ -151,10 +151,12 @@ public class ALTextView: UITextView {
     Ensure that when the text view is resized that the caret displays correctly withing the visible space
     */
     private func ensureCaretDisplaysCorrectly() {
-        let rect = caretRectForPosition(selectedTextRange?.end)
-        UIView.performWithoutAnimation({ () -> Void in
-            self.scrollRectToVisible(rect, animated: false)
-        })
+        if let s = selectedTextRange {
+            let rect = caretRectForPosition(s.end)
+            UIView.performWithoutAnimation({ () -> Void in
+                self.scrollRectToVisible(rect, animated: false)
+            })
+        }
     }
     
     //MARK: - Placeholder Layout -
@@ -162,7 +164,7 @@ public class ALTextView: UITextView {
     /**
     Determines if the placeholder should be hidden dependant on whether it was set and if there is text in the text view
     
-    :returns: true if it should not be visible
+    - returns: true if it should not be visible
     */
     private func shouldHidePlaceholder() -> Bool {
         return placeholder.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) == 0 || text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
@@ -171,8 +173,8 @@ public class ALTextView: UITextView {
     /**
     Layout the placeholder label to fit in the rect specified
     
-    :param: rect The constrained size in which to fit the label
-    :returns: The placeholder label frame
+    - parameter rect: The constrained size in which to fit the label
+    - returns: The placeholder label frame
     */
     private func placeholderRectThatFits(rect: CGRect) -> CGRect {
         
