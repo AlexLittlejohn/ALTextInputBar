@@ -96,6 +96,7 @@ public class ALTextView: UITextView {
     }
     
     private func commonInit() {
+        scrollEnabled = false
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "textViewDidChange:", name:UITextViewTextDidChangeNotification, object: self)
     }
     
@@ -122,7 +123,14 @@ public class ALTextView: UITextView {
         }
 
         let roundedHeight = roundHeight()
-        expectedHeight = roundedHeight >= maxHeight ? maxHeight : roundedHeight
+        
+        if roundedHeight >= maxHeight {
+            expectedHeight = maxHeight
+            scrollEnabled = true
+        } else {
+            expectedHeight = roundedHeight
+            scrollEnabled = false
+        }
         
         if textViewDelegate != nil {
             textViewDelegate?.textViewHeightChanged(self, newHeight:expectedHeight)
@@ -195,6 +203,7 @@ public class ALTextView: UITextView {
             if object == self {
                 placeholderLabel.hidden = shouldHidePlaceholder()
                 layoutManager.invalidateLayoutForCharacterRange(NSMakeRange(0, text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)), actualCharacterRange: nil)
+                updateSize()
             }
         }
     }
