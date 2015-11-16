@@ -2,7 +2,7 @@ Pod::Spec.new do |spec|
   spec.name               = "ALTextInputBar"
   spec.version            = "1.0.9"
   spec.summary            = "An auto growing text input bar for messaging apps"
-  spec.source             = { :git => "https://github.com/AlexLittlejohn/ALTextInputBar.git", :tag => '1.0.9' }
+  spec.source             = { :git => "https://github.com/AlexLittlejohn/ALTextInputBar.git", :tag => spec.version.to_s }
   spec.requires_arc       = true
   spec.platform           = :ios, "8.0"
   spec.license            = "MIT"
