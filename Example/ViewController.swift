@@ -48,12 +48,12 @@ class ViewController: UIViewController {
         view.addSubview(scrollView)
         
         let contentView = UIView(frame: CGRectMake(0, 0, view.bounds.size.width, view.bounds.size.height * 2))
-        contentView.backgroundColor = UIColor.groupTableViewBackgroundColor()
+        contentView.backgroundColor = UIColor(white: 0.8, alpha: 1)
         
         scrollView.addSubview(contentView)
         scrollView.contentSize = contentView.bounds.size
         scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.Interactive
-        scrollView.backgroundColor = UIColor.groupTableViewBackgroundColor()
+        scrollView.backgroundColor = UIColor(white: 0.6, alpha: 1)
     }
     
     func configureInputBar() {
@@ -65,10 +65,11 @@ class ViewController: UIViewController {
         
         keyboardObserver.userInteractionEnabled = false
         
+        textInputBar.showTextViewBorder = true
         textInputBar.leftView = leftButton
         textInputBar.rightView = rightButton
         textInputBar.frame = CGRectMake(0, view.frame.size.height - textInputBar.defaultHeight, view.frame.size.width, textInputBar.defaultHeight)
-        textInputBar.backgroundColor = UIColor.whiteColor()
+        textInputBar.backgroundColor = UIColor(white: 0.95, alpha: 1)
         textInputBar.keyboardObserver = keyboardObserver
         
         view.addSubview(textInputBar)
