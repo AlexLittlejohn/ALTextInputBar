@@ -135,6 +135,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         let size = frame.size
         let height = floor(size.height)
         
+        print(height)
+        
         var leftViewSize = CGSizeZero
         var rightViewSize = CGSizeZero
         
@@ -144,7 +146,10 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             let leftViewX: CGFloat = horizontalPadding
             let leftViewVerticalPadding = (defaultHeight - leftViewSize.height) / 2
             let leftViewY: CGFloat = height - (leftViewSize.height + leftViewVerticalPadding)
-            view.frame = CGRectMake(leftViewX, leftViewY, leftViewSize.width, leftViewSize.height)
+            
+            UIView.performWithoutAnimation {
+                view.frame = CGRectMake(leftViewX, leftViewY, leftViewSize.width, leftViewSize.height)
+            }
         }
 
         if let view = rightView {
@@ -220,12 +225,19 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     }
     
     public final func textViewDidChange(textView: UITextView) {
+        
+        self.textView.textViewDidChange()
+        
         let shouldShowButton = textView.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
+            print("empty")
+            
             showRightButton = shouldShowButton
+            
             updateViews(true)
         }
+
         
         if let d = delegate, m = d.textViewDidChange {
             m(self.textView)

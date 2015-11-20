@@ -97,7 +97,7 @@ public class ALTextView: UITextView {
     
     private func commonInit() {
         scrollEnabled = false
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "textViewDidChange:", name:UITextViewTextDidChangeNotification, object: self)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "textViewDidChange:", name:UITextViewTextDidChangeNotification, object: self)
     }
     
     override public func layoutSubviews() {
@@ -198,13 +198,8 @@ public class ALTextView: UITextView {
     
     //MARK: - Notifications -
     
-    func textViewDidChange(notification: NSNotification) {
-        if let object = notification.object as? ALTextView {
-            if object == self {
-                placeholderLabel.hidden = shouldHidePlaceholder()
-                layoutManager.invalidateLayoutForCharacterRange(NSMakeRange(0, text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)), actualCharacterRange: nil)
-                updateSize()
-            }
-        }
+    internal func textViewDidChange() {
+        placeholderLabel.hidden = shouldHidePlaceholder()
+        updateSize()
     }
 }
