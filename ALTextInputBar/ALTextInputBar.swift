@@ -13,6 +13,27 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     public weak var delegate: ALTextInputBarDelegate?
     public weak var keyboardObserver: ALKeyboardObservingView?
     
+    // If true, display a border around the text view
+    public var showTextViewBorder = false {
+        didSet {
+            textViewBorderView.hidden = !showTextViewBorder
+        }
+    }
+    
+    // TextView border insets
+    public var textViewBorderPadding: UIEdgeInsets = UIEdgeInsetsMake(6, 8, 6, 8)
+    
+    // TextView corner radius
+    public var textViewCornerRadius: CGFloat = 4
+    
+    // TextView border width
+    public var textViewBorderWidth: CGFloat = 1
+    
+    // TextView border color
+    public var textViewBorderColor = UIColor(white: 0.9, alpha: 1)
+    
+    // TextView background color
+    public var textViewBackgroundColor = UIColor.whiteColor()
     
     /// Used for the intrinsic content size for autolayout
     public var defaultHeight: CGFloat = 44
@@ -21,7 +42,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     public var alwaysShowRightButton = false
     
     /// The horizontal padding between the view edges and its subviews
-    public var horizontalPadding: CGFloat = 0
+    public var horizontalPadding: CGFloat = 10
     
     /// The horizontal spacing between subviews
     public var horizontalSpacing: CGFloat = 5
@@ -104,6 +125,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     private var showRightButton = false
     private var showLeftButton = false
+    
+    private var textViewBorderView: UIView!
         
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -116,11 +139,28 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     }
     
     private func commonInit() {
+        
+        textViewBorderView = createBorderView()
+        
+        addSubview(textViewBorderView)
         addSubview(textView)
         
+        textViewBorderView.hidden = !showTextViewBorder
         textView.textViewDelegate = self
         
         backgroundColor = UIColor.groupTableViewBackgroundColor()
+    }
+    
+    private func createBorderView() -> UIView {
+        let borderView = UIView()
+        
+        borderView.backgroundColor = textViewBackgroundColor
+        borderView.layer.borderColor = textViewBorderColor.CGColor
+        borderView.layer.borderWidth = textViewBorderWidth
+        borderView.layer.cornerRadius = textViewCornerRadius
+        
+        
+        return borderView
     }
     
     // MARK: - View positioning and layout -
@@ -177,22 +217,29 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             textViewWidth -= leftViewSize.width + horizontalSpacing
         }
         
+        if showTextViewBorder {
+            textViewX += textViewBorderPadding.left
+            textViewWidth -= textViewBorderPadding.left + textViewBorderPadding.right
+        }
+        
         if (showRightButton || alwaysShowRightButton) && rightViewSize.width > 0 {
             textViewWidth -= (horizontalSpacing + rightViewSize.width)
+        } else {
+            
         }
         
         textView.frame = CGRectMake(textViewX, textViewY, textViewWidth, textViewHeight)
+        
+        let offset = UIEdgeInsetsMake(-textViewBorderPadding.top, -textViewBorderPadding.left, -textViewBorderPadding.bottom, -textViewBorderPadding.right)
+        textViewBorderView.frame = UIEdgeInsetsInsetRect(textView.frame, offset)
     }
     
     public func updateViews(animated: Bool) {
         if animated {
-            // :discussion: Honestly not sure about the best way to calculated the ideal spring animation duration
-            // however these values seem to work for Slack
-            // possibly replace with facebook/pop but that opens another can of worms
-            UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .CurveEaseInOut, animations: {
+            UIView.animateWithDuration(0.2) {
                 self.setNeedsLayout()
                 self.layoutIfNeeded()
-                }, completion: nil)
+            }
             
         } else {
             setNeedsLayout()
