@@ -175,8 +175,6 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         let size = frame.size
         let height = floor(size.height)
         
-        print(height)
-        
         var leftViewSize = CGSizeZero
         var rightViewSize = CGSizeZero
         
@@ -278,10 +276,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         let shouldShowButton = textView.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
-            print("empty")
-            
             showRightButton = shouldShowButton
-            
             updateViews(true)
         }
 
