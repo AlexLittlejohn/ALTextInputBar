@@ -19,7 +19,7 @@ public protocol ALTextInputBarDelegate: NSObjectProtocol {
     optional func textViewDidChange(textView: ALTextView)
     optional func textViewDidChangeSelection(textView: ALTextView)
     
-    optional func textViewShouldReturn(textView: ALTextView) -> Bool
+    optional func textView(textView: ALTextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
     
     optional func inputBarDidChangeHeight(height: CGFloat)
 }
