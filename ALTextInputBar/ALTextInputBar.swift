@@ -338,10 +338,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         var shouldChange = true
-        if text == "\n" {
-            if let d = delegate, m = d.textViewShouldReturn {
-                shouldChange = m(self.textView)
-            }
+        if let d = delegate, m = d.textView {
+            shouldChange = m(self.textView, shouldChangeTextInRange: range, replacementText: text)
         }
         return shouldChange
     }
