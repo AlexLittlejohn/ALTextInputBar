@@ -24,16 +24,32 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     public var textViewBorderPadding: UIEdgeInsets = UIEdgeInsetsMake(6, 8, 6, 8)
     
     // TextView corner radius
-    public var textViewCornerRadius: CGFloat = 4
+    public var textViewCornerRadius: CGFloat = 4 {
+        didSet {
+            textViewBorderView.layer.cornerRadius = textViewCornerRadius
+        }
+    }
     
     // TextView border width
-    public var textViewBorderWidth: CGFloat = 1
+    public var textViewBorderWidth: CGFloat = 1 {
+        didSet {
+            textViewBorderView.layer.borderWidth = textViewBorderWidth
+        }
+    }
     
     // TextView border color
-    public var textViewBorderColor = UIColor(white: 0.9, alpha: 1)
+    public var textViewBorderColor = UIColor(white: 0.9, alpha: 1) {
+        didSet {
+            textViewBorderView.layer.borderColor = textViewBorderColor.CGColor
+        }
+    }
     
     // TextView background color
-    public var textViewBackgroundColor = UIColor.whiteColor()
+    public var textViewBackgroundColor = UIColor.whiteColor() {
+        didSet {
+            textViewBorderView.backgroundColor = textViewBackgroundColor
+        }
+    }
     
     /// Used for the intrinsic content size for autolayout
     public var defaultHeight: CGFloat = 44
@@ -175,8 +191,6 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         let size = frame.size
         let height = floor(size.height)
         
-        print(height)
-        
         var leftViewSize = CGSizeZero
         var rightViewSize = CGSizeZero
         
@@ -278,10 +292,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         let shouldShowButton = textView.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
-            print("empty")
-            
             showRightButton = shouldShowButton
-            
             updateViews(true)
         }
 
@@ -327,10 +338,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         var shouldChange = true
-        if text == "\n" {
-            if let d = delegate, m = d.textViewShouldReturn {
-                shouldChange = m(self.textView)
-            }
+        if let d = delegate, m = d.textView {
+            shouldChange = m(self.textView, shouldChangeTextInRange: range, replacementText: text)
         }
         return shouldChange
     }
