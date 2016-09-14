@@ -21,8 +21,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     }
     
     // TextView border insets
-    public var textViewBorderPadding: UIEdgeInsets = UIEdgeInsetsMake(6, 8, 6, 8)
-    
+    public var textViewBorderPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
     // TextView corner radius
     public var textViewCornerRadius: CGFloat = 4 {
         didSet {
@@ -119,8 +119,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     public let textView: ALTextView = {
         
         let _textView = ALTextView()
-        
-        _textView.textContainerInset = UIEdgeInsetsMake(1, 0, 1, 0);
+        _textView.textContainerInset = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
         _textView.textContainer.lineFragmentPadding = 0
         
         _textView.maxNumberOfLines = defaultNumberOfLines()

@@ -75,7 +75,18 @@ public class ALTextView: UITextView {
         
         return _placeholderLabel
         }()
-    
+
+		public override var textAlignment: NSTextAlignment {
+			get {
+				return super.textAlignment
+			}
+
+			set {
+				super.textAlignment = newValue
+				placeholderLabel.textAlignment = newValue
+			}
+		}
+
     /// The maximum number of lines that will be shown before the text view will scroll. 0 = no limit
     public var maxNumberOfLines: CGFloat = 0
     public var expectedHeight: CGFloat = 0
@@ -185,15 +196,14 @@ public class ALTextView: UITextView {
     - returns: The placeholder label frame
     */
     private func placeholderRectThatFits(rect: CGRect) -> CGRect {
-        
-        var placeholderRect = CGRectZero
-        placeholderRect.size = placeholderLabel.sizeThatFits(rect.size)
-        placeholderRect.origin = UIEdgeInsetsInsetRect(rect, textContainerInset).origin
-        
+
         let padding = textContainer.lineFragmentPadding
-        placeholderRect.origin.x += padding
-        
-        return placeholderRect
+
+				var placeHolderRect = UIEdgeInsetsInsetRect(rect, textContainerInset)
+				placeHolderRect.origin.x += padding
+        placeHolderRect.size.width -= padding * 2
+
+			  return placeHolderRect
     }
     
     //MARK: - Notifications -
