@@ -15,25 +15,28 @@ public class ALKeyboardObservingView: UIView {
     private weak var observedView: UIView?
     private var defaultHeight: CGFloat = 44
     
-    override public func intrinsicContentSize() -> CGSize {
-        return CGSizeMake(UIViewNoIntrinsicMetric, defaultHeight)
+    override public var intrinsicContentSize: CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: defaultHeight)
     }
+
+
     
-    public override func willMoveToSuperview(newSuperview: UIView?) {
+    public override func willMove(toSuperview newSuperview: UIView?) {
         
         removeKeyboardObserver()
         if let _newSuperview = newSuperview {
-            addKeyboardObserver(_newSuperview)
+            addKeyboardObserver(newSuperview: _newSuperview)
         }
         
-        super.willMoveToSuperview(newSuperview)
+        super.willMove(toSuperview: newSuperview)
     }
-    
-    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+
+
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if object as? NSObject == superview && keyPath == keyboardHandlingKeyPath() {
-            keyboardDidChangeFrame(superview!.frame)
+            keyboardDidChangeFrame(frame: superview!.frame)
         } else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
     
@@ -46,7 +49,7 @@ public class ALKeyboardObservingView: UIView {
         }
         
         for constraint in constraints {
-            if constraint.firstAttribute == NSLayoutAttribute.Height && constraint.firstItem as! NSObject == self {
+            if constraint.firstAttribute == NSLayoutAttribute.height && constraint.firstItem as! NSObject == self {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
             }
         }
@@ -62,7 +65,7 @@ public class ALKeyboardObservingView: UIView {
     
     private func addKeyboardObserver(newSuperview: UIView) {
         observedView = newSuperview
-        newSuperview.addObserver(self, forKeyPath: keyboardHandlingKeyPath(), options: NSKeyValueObservingOptions.New, context: nil)
+        newSuperview.addObserver(self, forKeyPath: keyboardHandlingKeyPath(), options: NSKeyValueObservingOptions.new, context: nil)
     }
     
     private func removeKeyboardObserver() {
@@ -73,8 +76,8 @@ public class ALKeyboardObservingView: UIView {
     }
     
     private func keyboardDidChangeFrame(frame: CGRect) {
-        let userInfo = [UIKeyboardFrameEndUserInfoKey: NSValue(CGRect:frame)]
-        NSNotificationCenter.defaultCenter().postNotificationName(ALKeyboardFrameDidChangeNotification, object: nil, userInfo: userInfo)
+        let userInfo: [AnyHashable : Any] = [UIKeyboardFrameEndUserInfoKey: NSValue(cgRect:frame)]
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: ALKeyboardFrameDidChangeNotification), object: nil, userInfo: userInfo)
     }
     
     deinit {
