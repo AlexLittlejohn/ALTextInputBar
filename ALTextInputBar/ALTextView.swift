@@ -67,15 +67,25 @@ public class ALTextView: UITextView {
         _placeholderLabel.autoresizesSubviews = false
         _placeholderLabel.numberOfLines = 1
         _placeholderLabel.font = self.font
-        _placeholderLabel.backgroundColor = UIColor.clearColor()
+        _placeholderLabel.backgroundColor = UIColor.clear
         _placeholderLabel.textColor = self.tintColor
-        _placeholderLabel.hidden = true
+        _placeholderLabel.isHidden = true
         
         self.addSubview(_placeholderLabel)
         
         return _placeholderLabel
-        }()
-    
+    }()
+
+    public override var textAlignment: NSTextAlignment {
+        get {
+            return super.textAlignment
+        }
+        set {
+            super.textAlignment = newValue
+            placeholderLabel.textAlignment = newValue
+        }
+    }
+
     /// The maximum number of lines that will be shown before the text view will scroll. 0 = no limit
     public var maxNumberOfLines: CGFloat = 0
     public var expectedHeight: CGFloat = 0
@@ -96,17 +106,16 @@ public class ALTextView: UITextView {
     }
     
     private func commonInit() {
-        scrollEnabled = false
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "textViewDidChange:", name:UITextViewTextDidChangeNotification, object: self)
+        isScrollEnabled = false
     }
     
     override public func layoutSubviews() {
         super.layoutSubviews()
         
-        placeholderLabel.hidden = shouldHidePlaceholder()
-        if !placeholderLabel.hidden {
-            placeholderLabel.frame = placeholderRectThatFits(bounds)
-            sendSubviewToBack(placeholderLabel)
+        placeholderLabel.isHidden = shouldHidePlaceholder()
+        if !placeholderLabel.isHidden {
+            placeholderLabel.frame = placeholderRectThatFits(rect: bounds)
+            sendSubview(toBack: placeholderLabel)
         }
     }
     
@@ -116,7 +125,7 @@ public class ALTextView: UITextView {
     */
     private func updateSize() {
         
-        var maxHeight = CGFloat.max
+        var maxHeight = CGFloat.greatestFiniteMagnitude
         
         if maxNumberOfLines > 0 {
             maxHeight = (ceil(font!.lineHeight) * maxNumberOfLines) + textContainerInset.top + textContainerInset.bottom
@@ -126,14 +135,14 @@ public class ALTextView: UITextView {
         
         if roundedHeight >= maxHeight {
             expectedHeight = maxHeight
-            scrollEnabled = true
+            isScrollEnabled = true
         } else {
             expectedHeight = roundedHeight
-            scrollEnabled = false
+            isScrollEnabled = false
         }
         
         if textViewDelegate != nil {
-            textViewDelegate?.textViewHeightChanged(self, newHeight:expectedHeight)
+            textViewDelegate?.textViewHeightChanged(textView: self, newHeight:expectedHeight)
         }
         
         ensureCaretDisplaysCorrectly()
@@ -147,9 +156,13 @@ public class ALTextView: UITextView {
         
         if let font = font {
             let attributes = [NSFontAttributeName: font]
-            let boundingSize = CGSizeMake(frame.size.width, CGFloat.max)
-            let size = (text as NSString).boundingRectWithSize(boundingSize, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: attributes, context: nil)
+            let boundingSize = CGSize(width: frame.size.width, height: CGFloat.greatestFiniteMagnitude)
+            let size = text.boundingRect(with: boundingSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil)
             newHeight = ceil(size.height)
+        }
+
+        if let font = font, newHeight < font.lineHeight {
+            newHeight = font.lineHeight
         }
         
         return newHeight + textContainerInset.top + textContainerInset.bottom
@@ -160,7 +173,7 @@ public class ALTextView: UITextView {
     */
     private func ensureCaretDisplaysCorrectly() {
         if let s = selectedTextRange {
-            let rect = caretRectForPosition(s.end)
+            let rect = caretRect(for: s.end)
             UIView.performWithoutAnimation({ () -> Void in
                 self.scrollRectToVisible(rect, animated: false)
             })
@@ -175,7 +188,7 @@ public class ALTextView: UITextView {
     - returns: true if it should not be visible
     */
     private func shouldHidePlaceholder() -> Bool {
-        return placeholder.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) == 0 || text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
+        return placeholder.lengthOfBytes(using: String.Encoding.utf8) == 0 || text.lengthOfBytes(using: String.Encoding.utf8) > 0
     }
     
     /**
@@ -185,21 +198,18 @@ public class ALTextView: UITextView {
     - returns: The placeholder label frame
     */
     private func placeholderRectThatFits(rect: CGRect) -> CGRect {
-        
-        var placeholderRect = CGRectZero
-        placeholderRect.size = placeholderLabel.sizeThatFits(rect.size)
-        placeholderRect.origin = UIEdgeInsetsInsetRect(rect, textContainerInset).origin
-        
         let padding = textContainer.lineFragmentPadding
-        placeholderRect.origin.x += padding
-        
-        return placeholderRect
+        var placeHolderRect = UIEdgeInsetsInsetRect(rect, textContainerInset)
+        placeHolderRect.origin.x += padding
+        placeHolderRect.size.width -= padding * 2
+
+        return placeHolderRect
     }
-    
+
     //MARK: - Notifications -
     
     internal func textViewDidChange() {
-        placeholderLabel.hidden = shouldHidePlaceholder()
+        placeholderLabel.isHidden = shouldHidePlaceholder()
         updateSize()
     }
 }

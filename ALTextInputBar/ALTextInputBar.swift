@@ -16,12 +16,12 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     // If true, display a border around the text view
     public var showTextViewBorder = false {
         didSet {
-            textViewBorderView.hidden = !showTextViewBorder
+            textViewBorderView.isHidden = !showTextViewBorder
         }
     }
     
     // TextView border insets
-    public var textViewBorderPadding: UIEdgeInsets = UIEdgeInsetsMake(6, 8, 6, 8)
+    public var textViewBorderPadding: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     
     // TextView corner radius
     public var textViewCornerRadius: CGFloat = 4 {
@@ -40,12 +40,12 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     // TextView border color
     public var textViewBorderColor = UIColor(white: 0.9, alpha: 1) {
         didSet {
-            textViewBorderView.layer.borderColor = textViewBorderColor.CGColor
+            textViewBorderView.layer.borderColor = textViewBorderColor.cgColor
         }
     }
     
     // TextView background color
-    public var textViewBackgroundColor = UIColor.whiteColor() {
+    public var textViewBackgroundColor = UIColor.white {
         didSet {
             textViewBorderView.backgroundColor = textViewBackgroundColor
         }
@@ -120,21 +120,21 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         
         let _textView = ALTextView()
         
-        _textView.textContainerInset = UIEdgeInsetsMake(1, 0, 1, 0);
+        _textView.textContainerInset = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
         _textView.textContainer.lineFragmentPadding = 0
         
         _textView.maxNumberOfLines = defaultNumberOfLines()
         
         _textView.placeholder = "Type here"
-        _textView.placeholderColor = UIColor.lightGrayColor()
+        _textView.placeholderColor = UIColor.lightGray
         
-        _textView.font = UIFont.systemFontOfSize(14)
-        _textView.textColor = UIColor.darkGrayColor()
+        _textView.font = UIFont.systemFont(ofSize: 14)
+        _textView.textColor = UIColor.darkGray
 
-        _textView.backgroundColor = UIColor.clearColor()
+        _textView.backgroundColor = UIColor.clear
         
         // This changes the caret color
-        _textView.tintColor = UIColor.lightGrayColor()
+        _textView.tintColor = UIColor.lightGray
         
         return _textView
         }()
@@ -161,17 +161,17 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         addSubview(textViewBorderView)
         addSubview(textView)
         
-        textViewBorderView.hidden = !showTextViewBorder
+        textViewBorderView.isHidden = !showTextViewBorder
         textView.textViewDelegate = self
         
-        backgroundColor = UIColor.groupTableViewBackgroundColor()
+        backgroundColor = UIColor.groupTableViewBackground
     }
     
     private func createBorderView() -> UIView {
         let borderView = UIView()
         
         borderView.backgroundColor = textViewBackgroundColor
-        borderView.layer.borderColor = textViewBorderColor.CGColor
+        borderView.layer.borderColor = textViewBorderColor.cgColor
         borderView.layer.borderWidth = textViewBorderWidth
         borderView.layer.cornerRadius = textViewCornerRadius
         
@@ -181,8 +181,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     // MARK: - View positioning and layout -
 
-    override public func intrinsicContentSize() -> CGSize {
-        return CGSizeMake(UIViewNoIntrinsicMetric, defaultHeight)
+    override public var intrinsicContentSize: CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: defaultHeight)
     }
     
     override public func layoutSubviews() {
@@ -191,8 +191,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         let size = frame.size
         let height = floor(size.height)
         
-        var leftViewSize = CGSizeZero
-        var rightViewSize = CGSizeZero
+        var leftViewSize = CGSize.zero
+        var rightViewSize = CGSize.zero
         
         if let view = leftView {
             leftViewSize = view.bounds.size
@@ -202,7 +202,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             let leftViewY: CGFloat = height - (leftViewSize.height + leftViewVerticalPadding)
             
             UIView.performWithoutAnimation {
-                view.frame = CGRectMake(leftViewX, leftViewY, leftViewSize.width, leftViewSize.height)
+                view.frame = CGRect(x: leftViewX, y: leftViewY, width: leftViewSize.width, height: leftViewSize.height)
             }
         }
 
@@ -217,7 +217,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
                 rightViewX -= (rightViewSize.width + horizontalPadding)
             }
             
-            view.frame = CGRectMake(rightViewX, rightViewY, rightViewSize.width, rightViewSize.height)
+            view.frame = CGRect(x: rightViewX, y: rightViewY, width: rightViewSize.width, height: rightViewSize.height)
         }
         
         let textViewPadding = (defaultHeight - textView.minimumHeight) / 2
@@ -242,7 +242,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
             
         }
         
-        textView.frame = CGRectMake(textViewX, textViewY, textViewWidth, textViewHeight)
+        textView.frame = CGRect(x: textViewX, y: textViewY, width: textViewWidth, height: textViewHeight)
         
         let offset = UIEdgeInsetsMake(-textViewBorderPadding.top, -textViewBorderPadding.left, -textViewBorderPadding.bottom, -textViewBorderPadding.right)
         textViewBorderView.frame = UIEdgeInsetsInsetRect(textView.frame, offset)
@@ -250,7 +250,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     public func updateViews(animated: Bool) {
         if animated {
-            UIView.animateWithDuration(0.2) {
+            UIView.animate(withDuration: 0.2) {
                 self.setNeedsLayout()
                 self.layoutIfNeeded()
             }
@@ -269,7 +269,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         let height = padding + newHeight
         
         for constraint in constraints {
-            if constraint.firstAttribute == NSLayoutAttribute.Height && constraint.firstItem as! NSObject == self {
+            if constraint.firstAttribute == NSLayoutAttribute.height && constraint.firstItem as! NSObject == self {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
             }
         }
@@ -277,69 +277,71 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         frame.size.height = height
         
         if let ko = keyboardObserver {
-            ko.updateHeight(height)
+            ko.updateHeight(height: height)
         }
         
-        if let d = delegate, m = d.inputBarDidChangeHeight {
+        if let d = delegate, let m = d.inputBarDidChangeHeight {
             m(height)
         }
+
+        textView.frame.size.height = newHeight
     }
     
-    public final func textViewDidChange(textView: UITextView) {
+    public final func textViewDidChange(_ textView: UITextView) {
         
         self.textView.textViewDidChange()
-        
-        let shouldShowButton = textView.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0
+
+        let shouldShowButton = textView.text.lengthOfBytes(using: String.Encoding.utf8) > 0
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
             showRightButton = shouldShowButton
-            updateViews(true)
+            updateViews(animated: true)
         }
 
         
-        if let d = delegate, m = d.textViewDidChange {
+        if let d = delegate, let m = d.textViewDidChange {
             m(self.textView)
         }
     }
     
-    public func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         var beginEditing: Bool = true
-        if let d = delegate, m = d.textViewShouldEndEditing {
+        if let d = delegate, let m = d.textViewShouldEndEditing {
             beginEditing = m(self.textView)
         }
         return beginEditing
     }
     
-    public func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    public func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         var endEditing = true
-        if let d = delegate, m = d.textViewShouldEndEditing {
+        if let d = delegate, let m = d.textViewShouldEndEditing {
             endEditing = m(self.textView)
         }
         return endEditing
     }
     
-    public func textViewDidBeginEditing(textView: UITextView) {
-        if let d = delegate, m = d.textViewDidBeginEditing {
+    public func textViewDidBeginEditing(_ textView: UITextView) {
+        if let d = delegate, let m = d.textViewDidBeginEditing {
             m(self.textView)
         }
     }
     
-    public func textViewDidEndEditing(textView: UITextView) {
-        if let d = delegate, m = d.textViewDidEndEditing {
+    public func textViewDidEndEditing(_ textView: UITextView) {
+        if let d = delegate, let m = d.textViewDidEndEditing {
             m(self.textView)
         }
     }
     
-    public func textViewDidChangeSelection(textView: UITextView) {
-        if let d = delegate, m = d.textViewDidChangeSelection {
+    public func textViewDidChangeSelection(_ textView: UITextView) {
+        if let d = delegate, let m = d.textViewDidChangeSelection {
             m(self.textView)
         }
     }
     
-    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         var shouldChange = true
-        if let d = delegate, m = d.textView {
-            shouldChange = m(self.textView, shouldChangeTextInRange: range, replacementText: text)
+        if let d = delegate, let m = d.textView {
+            shouldChange = m(self.textView, range, text)
         }
         return shouldChange
     }

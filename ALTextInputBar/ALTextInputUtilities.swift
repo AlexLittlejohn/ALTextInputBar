@@ -21,18 +21,18 @@ internal func defaultNumberOfLines() -> CGFloat {
 
 internal extension UIDevice {
     internal class func isIPad() -> Bool {
-        return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad
+        return UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad
     }
     
     internal class func isIPhone() -> Bool {
-        return UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Phone
+        return UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone
     }
     
     internal class func isIPhone4() -> Bool {
-        return UIDevice.isIPhone() && UIScreen.mainScreen().bounds.size.height < 568.0
+        return UIDevice.isIPhone() && UIScreen.main.bounds.size.height < 568.0
     }
     
     internal class func floatVersion() -> Float {
-        return (UIDevice.currentDevice().systemVersion as NSString).floatValue
+        return (UIDevice.current.systemVersion as NSString).floatValue
     }
 }
