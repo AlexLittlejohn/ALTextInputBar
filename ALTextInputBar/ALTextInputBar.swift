@@ -283,6 +283,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         if let d = delegate, let m = d.inputBarDidChangeHeight {
             m(height)
         }
+
+        textView.frame.size.height = newHeight
     }
     
     public final func textViewDidChange(_ textView: UITextView) {

@@ -160,6 +160,10 @@ public class ALTextView: UITextView {
             let size = text.boundingRect(with: boundingSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil)
             newHeight = ceil(size.height)
         }
+
+        if let font = font, newHeight < font.lineHeight {
+            newHeight = font.lineHeight
+        }
         
         return newHeight + textContainerInset.top + textContainerInset.bottom
     }
