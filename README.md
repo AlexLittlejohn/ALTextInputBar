@@ -12,7 +12,7 @@ ALTextInputBar is designed to solve a few issues that folks usually encounter wh
 
 ### Installation & Requirements
 
-This project requires Xcode 7.0 to run and compiles with swift 2.0
+This project requires Xcode 8.0 to run and compiles with swift 3.0
 
 ALTextInputBar is available on [CocoaPods](http://cocoapods.org).  Add the following to your Podfile:
 
@@ -27,7 +27,7 @@ This is the minimum configuration required to attach an input bar to the keyboar
 class ViewController: UIViewController {
 
     let textInputBar = ALTextInputBar()
-    
+
     // The magic sauce
     // This is how we attach the input bar to the keyboard
     override var inputAccessoryView: UIView? {
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
             return textInputBar
         }
     }
-    
+
     // Another ingredient in the magic sauce
     override func canBecomeFirstResponder() -> Bool {
         return true
@@ -45,5 +45,3 @@ class ViewController: UIViewController {
 
 ## License
 ALTextInputBar is available under the MIT license. See the LICENSE file for more info.
-
-
