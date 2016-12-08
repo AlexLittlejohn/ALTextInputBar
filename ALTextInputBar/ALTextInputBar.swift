@@ -81,10 +81,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     */
     public var leftView: UIView? {
         willSet(newValue) {
-            if newValue == nil {
-                if let view = leftView {
-                    view.removeFromSuperview()
-                }
+            if let view = leftView {
+                view.removeFromSuperview()
             }
         }
         didSet {
@@ -102,10 +100,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     */
     public var rightView: UIView? {
         willSet(newValue) {
-            if newValue == nil {
-                if let view = rightView {
-                    view.removeFromSuperview()
-                }
+            if let view = rightView {
+                view.removeFromSuperview()
             }
         }
         didSet {
