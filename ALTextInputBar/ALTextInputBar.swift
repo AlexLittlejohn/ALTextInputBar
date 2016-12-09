@@ -133,7 +133,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         _textView.tintColor = UIColor.lightGray
         
         return _textView
-        }()
+    }()
     
     private var showRightButton = false
     private var showLeftButton = false
@@ -287,7 +287,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         
         self.textView.textViewDidChange()
 
-        let shouldShowButton = textView.text.lengthOfBytes(using: String.Encoding.utf8) > 0
+        let shouldShowButton = textView.text.characters.count > 0
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
             showRightButton = shouldShowButton

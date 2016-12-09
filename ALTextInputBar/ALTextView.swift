@@ -188,7 +188,7 @@ public class ALTextView: UITextView {
     - returns: true if it should not be visible
     */
     private func shouldHidePlaceholder() -> Bool {
-        return placeholder.lengthOfBytes(using: String.Encoding.utf8) == 0 || text.lengthOfBytes(using: String.Encoding.utf8) > 0
+        return placeholder.characters.count == 0 || text.characters.count > 0
     }
     
     /**
