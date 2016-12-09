@@ -37,7 +37,7 @@ class ViewController: UIViewController {
     }
 
     // Another ingredient in the magic sauce
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder: Bool {
         return true
     }
 }
