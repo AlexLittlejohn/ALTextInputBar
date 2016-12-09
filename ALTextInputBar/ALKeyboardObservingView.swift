@@ -41,7 +41,7 @@ public class ALKeyboardObservingView: UIView {
     }
     
     public func updateHeight(height: CGFloat) {
-        if UIDevice.floatVersion() < 8.0 {
+        if UIDevice.floatVersion < 8.0 {
             frame.size.height = height
             
             setNeedsLayout()
@@ -56,7 +56,7 @@ public class ALKeyboardObservingView: UIView {
     }
     
     private func keyboardHandlingKeyPath() -> String {
-        if UIDevice.floatVersion() >= 8.0 {
+        if UIDevice.floatVersion >= 8.0 {
             return "center"
         } else {
             return "frame"
