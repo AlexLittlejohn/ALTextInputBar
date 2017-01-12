@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     }
     
     // This is also required
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder: Bool {
         return true
     }
     
@@ -32,10 +32,10 @@ class ViewController: UIViewController {
         
         configureScrollView()
         configureInputBar()
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardFrameChanged(_:)), name: ALKeyboardFrameDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameChanged(notification:)), name: NSNotification.Name(rawValue: ALKeyboardFrameDidChangeNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     override func viewWillLayoutSubviews() {
@@ -47,28 +47,28 @@ class ViewController: UIViewController {
     func configureScrollView() {
         view.addSubview(scrollView)
         
-        let contentView = UIView(frame: CGRectMake(0, 0, view.bounds.size.width, view.bounds.size.height * 2))
+        let contentView = UIView(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height * 2))
         contentView.backgroundColor = UIColor(white: 0.8, alpha: 1)
         
         scrollView.addSubview(contentView)
         scrollView.contentSize = contentView.bounds.size
-        scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.Interactive
+        scrollView.keyboardDismissMode = .interactive
         scrollView.backgroundColor = UIColor(white: 0.6, alpha: 1)
     }
     
     func configureInputBar() {
-        let leftButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
-        let rightButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
+        let leftButton  = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        let rightButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         
-        leftButton.setImage(UIImage(named: "leftIcon"), forState: UIControlState.Normal)
-        rightButton.setImage(UIImage(named: "rightIcon"), forState: UIControlState.Normal)
+        leftButton.setImage(#imageLiteral(resourceName: "leftIcon"), for: .normal)
+        rightButton.setImage(#imageLiteral(resourceName: "rightIcon"), for: .normal)
         
-        keyboardObserver.userInteractionEnabled = false
+        keyboardObserver.isUserInteractionEnabled = false
         
         textInputBar.showTextViewBorder = true
         textInputBar.leftView = leftButton
         textInputBar.rightView = rightButton
-        textInputBar.frame = CGRectMake(0, view.frame.size.height - textInputBar.defaultHeight, view.frame.size.width, textInputBar.defaultHeight)
+        textInputBar.frame = CGRect(x: 0, y: view.frame.size.height - textInputBar.defaultHeight, width: view.frame.size.width, height: textInputBar.defaultHeight)
         textInputBar.backgroundColor = UIColor(white: 0.95, alpha: 1)
         textInputBar.keyboardObserver = keyboardObserver
         
@@ -77,21 +77,21 @@ class ViewController: UIViewController {
 
     func keyboardFrameChanged(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
             textInputBar.frame.origin.y = frame.origin.y
         }
     }
     
     func keyboardWillShow(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
             textInputBar.frame.origin.y = frame.origin.y
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+            let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
             textInputBar.frame.origin.y = frame.origin.y
         }
     }

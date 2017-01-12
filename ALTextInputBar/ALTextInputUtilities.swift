@@ -9,10 +9,10 @@
 import UIKit
 
 internal func defaultNumberOfLines() -> CGFloat {
-    if (UIDevice.isIPad()) {
+    if UIDevice.isIPad {
         return 8;
     }
-    if (UIDevice.isIPhone4()) {
+    if UIDevice.isIPhone4 {
         return 4;
     }
     
@@ -20,19 +20,19 @@ internal func defaultNumberOfLines() -> CGFloat {
 }
 
 internal extension UIDevice {
-    internal class func isIPad() -> Bool {
+    internal static var isIPad: Bool {
         return UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad
     }
     
-    internal class func isIPhone() -> Bool {
+    internal static var isIPhone: Bool {
         return UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.phone
     }
     
-    internal class func isIPhone4() -> Bool {
-        return UIDevice.isIPhone() && UIScreen.main.bounds.size.height < 568.0
+    internal static var isIPhone4: Bool {
+        return UIDevice.isIPhone && UIScreen.main.bounds.size.height < 568.0
     }
     
-    internal class func floatVersion() -> Float {
-        return (UIDevice.current.systemVersion as NSString).floatValue
+    internal static var floatVersion: Float {
+        return Float(UIDevice.current.systemVersion)!
     }
 }

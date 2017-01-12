@@ -81,10 +81,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     */
     public var leftView: UIView? {
         willSet(newValue) {
-            if newValue == nil {
-                if let view = leftView {
-                    view.removeFromSuperview()
-                }
+            if let view = leftView {
+                view.removeFromSuperview()
             }
         }
         didSet {
@@ -102,10 +100,8 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     */
     public var rightView: UIView? {
         willSet(newValue) {
-            if newValue == nil {
-                if let view = rightView {
-                    view.removeFromSuperview()
-                }
+            if let view = rightView {
+                view.removeFromSuperview()
             }
         }
         didSet {
@@ -137,7 +133,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         _textView.tintColor = UIColor.lightGray
         
         return _textView
-        }()
+    }()
     
     private var showRightButton = false
     private var showLeftButton = false
@@ -291,7 +287,7 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
         
         self.textView.textViewDidChange()
 
-        let shouldShowButton = textView.text.lengthOfBytes(using: String.Encoding.utf8) > 0
+        let shouldShowButton = textView.text.characters.count > 0
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
             showRightButton = shouldShowButton

@@ -156,7 +156,7 @@ public class ALTextView: UITextView {
         
         if let font = font {
             let attributes = [NSFontAttributeName: font]
-            let boundingSize = CGSize(width: frame.size.width, height: CGFloat.greatestFiniteMagnitude)
+            let boundingSize = CGSize(width: frame.size.width - textContainerInset.left - textContainerInset.bottom, height: .greatestFiniteMagnitude)
             let size = text.boundingRect(with: boundingSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil)
             newHeight = ceil(size.height)
         }
@@ -188,7 +188,7 @@ public class ALTextView: UITextView {
     - returns: true if it should not be visible
     */
     private func shouldHidePlaceholder() -> Bool {
-        return placeholder.lengthOfBytes(using: String.Encoding.utf8) == 0 || text.lengthOfBytes(using: String.Encoding.utf8) > 0
+        return placeholder.characters.count == 0 || text.characters.count > 0
     }
     
     /**
