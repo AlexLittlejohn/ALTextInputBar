@@ -41,13 +41,6 @@ public class ALKeyboardObservingView: UIView {
     }
     
     public func updateHeight(height: CGFloat) {
-        if UIDevice.floatVersion < 8.0 {
-            frame.size.height = height
-            
-            setNeedsLayout()
-            layoutIfNeeded()
-        }
-        
         for constraint in constraints {
             if constraint.firstAttribute == NSLayoutAttribute.height && constraint.firstItem as! NSObject == self {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
@@ -56,11 +49,7 @@ public class ALKeyboardObservingView: UIView {
     }
     
     private func keyboardHandlingKeyPath() -> String {
-        if UIDevice.floatVersion >= 8.0 {
-            return "center"
-        } else {
-            return "frame"
-        }
+        return "center"
     }
     
     private func addKeyboardObserver(newSuperview: UIView) {

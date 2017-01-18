@@ -31,8 +31,4 @@ internal extension UIDevice {
     internal static var isIPhone4: Bool {
         return UIDevice.isIPhone && UIScreen.main.bounds.size.height < 568.0
     }
-    
-    internal static var floatVersion: Float {
-        return Float(UIDevice.current.systemVersion)!
-    }
 }
