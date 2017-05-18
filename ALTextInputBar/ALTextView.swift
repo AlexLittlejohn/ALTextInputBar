@@ -172,11 +172,15 @@ public class ALTextView: UITextView {
     Ensure that when the text view is resized that the caret displays correctly withing the visible space
     */
     private func ensureCaretDisplaysCorrectly() {
-        if let s = selectedTextRange {
-            let rect = caretRect(for: s.end)
-            UIView.performWithoutAnimation({ () -> Void in
+        guard let range = selectedTextRange else {
+            return
+        }
+
+        DispatchQueue.main.async {
+            let rect = self.caretRect(for: range.end)
+            UIView.performWithoutAnimation {
                 self.scrollRectToVisible(rect, animated: false)
-            })
+            }
         }
     }
     
