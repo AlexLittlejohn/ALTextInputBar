@@ -176,10 +176,12 @@ public class ALTextView: UITextView {
             return
         }
 
-        let rect = caretRect(for: range.end)
-        UIView.performWithoutAnimation({ () -> Void in
-            self.scrollRectToVisible(rect, animated: false)
-        })
+        DispatchQueue.main.async {
+            let rect = self.caretRect(for: range.end)
+            UIView.performWithoutAnimation({ () -> Void in
+                self.scrollRectToVisible(rect, animated: false)
+            })
+        }
     }
     
     //MARK: - Placeholder Layout -
