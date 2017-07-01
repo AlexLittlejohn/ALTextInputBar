@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ALTextInputBar: UIView, ALTextViewDelegate {
+open class ALTextInputBar: UIView, ALTextViewDelegate {
     
     public weak var delegate: ALTextInputBarDelegate?
     public weak var keyboardObserver: ALKeyboardObservingView?
@@ -177,11 +177,11 @@ public class ALTextInputBar: UIView, ALTextViewDelegate {
     
     // MARK: - View positioning and layout -
 
-    override public var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         return CGSize(width: UIViewNoIntrinsicMetric, height: defaultHeight)
     }
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         
         let size = frame.size
