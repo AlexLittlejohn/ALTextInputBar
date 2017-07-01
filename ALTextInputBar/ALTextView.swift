@@ -141,10 +141,8 @@ public class ALTextView: UITextView {
             isScrollEnabled = false
         }
         
-        if textViewDelegate != nil {
-            textViewDelegate?.textViewHeightChanged(textView: self, newHeight:expectedHeight)
-        }
-        
+        textViewDelegate?.textViewHeightChanged(textView: self, newHeight:expectedHeight)
+
         ensureCaretDisplaysCorrectly()
     }
     
