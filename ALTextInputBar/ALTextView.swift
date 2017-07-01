@@ -141,10 +141,8 @@ public class ALTextView: UITextView {
             isScrollEnabled = false
         }
         
-        if textViewDelegate != nil {
-            textViewDelegate?.textViewHeightChanged(textView: self, newHeight:expectedHeight)
-        }
-        
+        textViewDelegate?.textViewHeightChanged(textView: self, newHeight:expectedHeight)
+
         ensureCaretDisplaysCorrectly()
     }
     
@@ -156,7 +154,7 @@ public class ALTextView: UITextView {
         
         if let font = font {
             let attributes = [NSFontAttributeName: font]
-            let boundingSize = CGSize(width: frame.size.width - textContainerInset.left - textContainerInset.bottom, height: .greatestFiniteMagnitude)
+            let boundingSize = CGSize(width: frame.size.width - textContainerInset.left - textContainerInset.right, height: .greatestFiniteMagnitude)
             let size = text.boundingRect(with: boundingSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil)
             newHeight = ceil(size.height)
         }

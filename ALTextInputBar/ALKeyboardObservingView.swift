@@ -31,10 +31,20 @@ public class ALKeyboardObservingView: UIView {
         super.willMove(toSuperview: newSuperview)
     }
 
-
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if object as? NSObject == superview && keyPath == keyboardHandlingKeyPath() {
-            keyboardDidChangeFrame(frame: superview!.frame)
+        if object as? NSObject == superview && keyPath == keyboardHandlingKeyPath(), let s = superview {
+
+            let keyboardFrame = s.frame
+            let screenBounds = UIScreen.main.bounds
+            let intersectRect = keyboardFrame.intersection(screenBounds)
+            var keyboardHeight: CGFloat = 0
+            if !intersectRect.isNull {
+                keyboardHeight = intersectRect.size.height
+            }
+
+            let changeRect = CGRect(x: s.frame.origin.x, y: s.frame.origin.y, width: s.frame.width, height: keyboardHeight)
+
+            keyboardDidChangeFrame(frame: changeRect)
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
