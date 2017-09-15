@@ -75,6 +75,7 @@ class ViewController: UIViewController {
         view.addSubview(textInputBar)
     }
 
+    @objc
     func keyboardFrameChanged(notification: NSNotification) {
         if let userInfo = notification.userInfo {
             let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
@@ -82,6 +83,7 @@ class ViewController: UIViewController {
         }
     }
     
+    @objc
     func keyboardWillShow(notification: NSNotification) {
         if let userInfo = notification.userInfo {
             let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
@@ -89,6 +91,7 @@ class ViewController: UIViewController {
         }
     }
     
+    @objc
     func keyboardWillHide(notification: NSNotification) {
         if let userInfo = notification.userInfo {
             let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
