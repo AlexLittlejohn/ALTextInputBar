@@ -302,7 +302,7 @@ open class ALTextInputBar: UIView, ALTextViewDelegate {
     
     public func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         var beginEditing: Bool = true
-        if let d = delegate, let m = d.textViewShouldEndEditing {
+        if let d = delegate, let m = d.textViewShouldBeginEditing {
             beginEditing = m(self.textView)
         }
         return beginEditing
