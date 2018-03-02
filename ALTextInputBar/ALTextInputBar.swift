@@ -287,7 +287,7 @@ open class ALTextInputBar: UIView, ALTextViewDelegate {
         
         self.textView.textViewDidChange()
 
-        let shouldShowButton = textView.text.characters.count > 0
+        let shouldShowButton = !textView.text.isEmpty
         
         if showRightButton != shouldShowButton && !alwaysShowRightButton {
             showRightButton = shouldShowButton
