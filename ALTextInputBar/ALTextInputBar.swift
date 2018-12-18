@@ -178,7 +178,7 @@ open class ALTextInputBar: UIView, ALTextViewDelegate {
     // MARK: - View positioning and layout -
 
     override open var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: defaultHeight)
+        return CGSize(width: UIView.noIntrinsicMetric, height: defaultHeight)
     }
     
     override open func layoutSubviews() {
@@ -240,8 +240,8 @@ open class ALTextInputBar: UIView, ALTextViewDelegate {
         
         textView.frame = CGRect(x: textViewX, y: textViewY, width: textViewWidth, height: textViewHeight)
         
-        let offset = UIEdgeInsetsMake(-textViewBorderPadding.top, -textViewBorderPadding.left, -textViewBorderPadding.bottom, -textViewBorderPadding.right)
-        textViewBorderView.frame = UIEdgeInsetsInsetRect(textView.frame, offset)
+        let offset = UIEdgeInsets(top: -textViewBorderPadding.top, left: -textViewBorderPadding.left, bottom: -textViewBorderPadding.bottom, right: -textViewBorderPadding.right)
+        textViewBorderView.frame = textView.frame.inset(by: offset)
     }
     
     public func updateViews(animated: Bool) {
@@ -265,7 +265,7 @@ open class ALTextInputBar: UIView, ALTextViewDelegate {
         let height = padding + newHeight
         
         for constraint in constraints {
-            if constraint.firstAttribute == NSLayoutAttribute.height && constraint.firstItem as! NSObject == self {
+            if constraint.firstAttribute == NSLayoutConstraint.Attribute.height && constraint.firstItem as! NSObject == self {
                 constraint.constant = height < defaultHeight ? defaultHeight : height
             }
         }

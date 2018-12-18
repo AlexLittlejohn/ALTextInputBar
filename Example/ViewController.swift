@@ -34,8 +34,8 @@ class ViewController: UIViewController {
         configureInputBar()
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameChanged(notification:)), name: NSNotification.Name(rawValue: ALKeyboardFrameDidChangeNotification), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     override func viewWillLayoutSubviews() {
@@ -77,21 +77,21 @@ class ViewController: UIViewController {
 
     @objc func keyboardFrameChanged(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
+            let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
             textInputBar.frame.origin.y = frame.origin.y
         }
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
+            let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
             textInputBar.frame.origin.y = frame.origin.y
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            let frame = userInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect
+            let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
             textInputBar.frame.origin.y = frame.origin.y
         }
     }
