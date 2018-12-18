@@ -9,11 +9,8 @@
 /* Begin PBXBuildFile section */
 		FA41B0B21AEBC57D00593A04 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA41B0B01AEBC57D00593A04 /* Images.xcassets */; };
 		FA4AE6741B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6731B0494200086AEBF /* ALTextInputBarDelegate.swift */; };
-		FA4AE6751B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6731B0494200086AEBF /* ALTextInputBarDelegate.swift */; };
 		FA4AE6771B0494AE0086AEBF /* ALKeyboardObservingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6761B0494AE0086AEBF /* ALKeyboardObservingView.swift */; };
-		FA4AE6781B0494AE0086AEBF /* ALKeyboardObservingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6761B0494AE0086AEBF /* ALKeyboardObservingView.swift */; };
 		FA4AE67A1B0495F60086AEBF /* ALTextInputUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6791B0495F60086AEBF /* ALTextInputUtilities.swift */; };
-		FA4AE67B1B0495F60086AEBF /* ALTextInputUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AE6791B0495F60086AEBF /* ALTextInputUtilities.swift */; };
 		FA61C9471AEAEC5F00920E37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA61C9461AEAEC5F00920E37 /* AppDelegate.swift */; };
 		FA61C9491AEAEC5F00920E37 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA61C9481AEAEC5F00920E37 /* ViewController.swift */; };
 		FA61C95D1AEAEC5F00920E37 /* ALTextInputBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA61C95C1AEAEC5F00920E37 /* ALTextInputBarTests.swift */; };
@@ -184,11 +181,11 @@
 					FA61C9401AEAEC5F00920E37 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = GAPQH4AM76;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1010;
 					};
 					FA61C9551AEAEC5F00920E37 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1010;
 						TestTargetID = FA61C9401AEAEC5F00920E37;
 					};
 				};
@@ -250,9 +247,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA61C95D1AEAEC5F00920E37 /* ALTextInputBarTests.swift in Sources */,
-				FA4AE6751B0494200086AEBF /* ALTextInputBarDelegate.swift in Sources */,
-				FA4AE6781B0494AE0086AEBF /* ALKeyboardObservingView.swift in Sources */,
-				FA4AE67B1B0495F60086AEBF /* ALTextInputUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,8 +373,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alx.zero.TextInputBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -396,8 +389,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zero.TextInputBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -418,7 +410,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zero.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ALTextInputBar.app/ALTextInputBar";
 			};
 			name = Debug;
@@ -435,7 +427,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.zero.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ALTextInputBar.app/ALTextInputBar";
 			};
 			name = Release;
