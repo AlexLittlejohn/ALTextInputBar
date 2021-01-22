@@ -115,7 +115,7 @@ public class ALTextView: UITextView {
         placeholderLabel.isHidden = shouldHidePlaceholder()
         if !placeholderLabel.isHidden {
             placeholderLabel.frame = placeholderRectThatFits(rect: bounds)
-            sendSubview(toBack: placeholderLabel)
+            sendSubviewToBack(placeholderLabel)
         }
     }
     
@@ -153,7 +153,7 @@ public class ALTextView: UITextView {
         var newHeight: CGFloat = 0
         
         if let font = font {
-            let attributes = [NSAttributedStringKey.font: font]
+            let attributes = [NSAttributedString.Key.font: font]
             let boundingSize = CGSize(width: frame.size.width - textContainerInset.left - textContainerInset.right, height: .greatestFiniteMagnitude)
             let size = text.boundingRect(with: boundingSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil)
             newHeight = ceil(size.height)
@@ -201,7 +201,7 @@ public class ALTextView: UITextView {
     */
     private func placeholderRectThatFits(rect: CGRect) -> CGRect {
         let padding = textContainer.lineFragmentPadding
-        var placeHolderRect = UIEdgeInsetsInsetRect(rect, textContainerInset)
+        var placeHolderRect = rect.inset(by: textContainerInset)
         placeHolderRect.origin.x += padding
         placeHolderRect.size.width -= padding * 2
 
