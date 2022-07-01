@@ -1,3 +1,5 @@
+# :warning: This project is unmaintained
+
 # ALTextInputBar
 An auto growing text input bar for messaging apps. Written in Swift.  
 ALTextInputBar is designed to solve a few issues that folks usually encounter when building messaging apps.
